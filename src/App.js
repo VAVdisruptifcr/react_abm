@@ -1,26 +1,35 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+// import logo from './logo.svg';
 import './App.css';
+import CustomersContainer from './containers/CustomersContainer';
+import HomeContainer from './containers/HomeContainer';
+import CustomerContainer from './containers/CustomerContainer';
+import NewCustomerContainer from './containers/NewCustomerContainer';
 
 class App extends Component {
+
+  renderHome = () => <HomeContainer />;
+
+  renderCustomerContainer = () => <CustomersContainer></CustomersContainer>;
+
+  renderCustomerListContainer = () => <h1>Customers List Container</h1>;
+
+
   render() {
+
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
+      <Router>
+        <div>
+          <Route exact path="/" component={this.renderHome} />
+          <Route exact path="/customers" component={this.renderCustomerContainer} />
+          
+          <Switch>
+            <Route path="/customers/new" component={NewCustomerContainer} />
+            <Route path="/customers/:dni" render = {props => <CustomerContainer dni={props.match.params.dni}/> } />
+          </Switch>
+        </div>
+      </Router>
     );
   }
 }
